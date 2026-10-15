@@ -1,0 +1,24 @@
+node_modules/
+dist/
+build/
+coverage/
+
+# Env
+.env
+!.env.example
+
+# SQLite
+*.db
+*.db-journal
+
+# Logs
+*.log
+npm-debug.log*
+
+# Instructions locales de l'assistant de code (non publiées)
+CLAUDE.md
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/

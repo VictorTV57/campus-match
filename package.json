@@ -1,0 +1,22 @@
+{
+  "name": "campus-match",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "front",
+    "back"
+  ],
+  "scripts": {
+    "dev:front": "npm run dev --workspace front",
+    "dev:back": "npm run start:dev --workspace back",
+    "build:front": "npm run build --workspace front",
+    "build:back": "npm run build --workspace back",
+    "prisma:migrate": "npm run prisma:migrate --workspace back",
+    "prisma:generate": "npm run prisma:generate --workspace back",
+    "prisma:studio": "npm run prisma:studio --workspace back",
+    "sync": "npm run sync --workspace back"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}
