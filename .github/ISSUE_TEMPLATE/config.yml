@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Signaler une faille de sécurité
+    url: https://github.com/VictorTV57/campus-match/security/advisories/new
+    about: En privé, jamais dans une issue publique.
+  - name: 📖 Guide de contribution
+    url: https://github.com/VictorTV57/campus-match/blob/main/CONTRIBUTING.md
+    about: Installation, conventions et déroulé d'une pull request.

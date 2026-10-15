@@ -1,0 +1,42 @@
+name: 💡 Idée / amélioration
+description: Proposer une nouvelle fonctionnalité ou une amélioration
+title: "[Idée] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Décris d'abord le **besoin**, ensuite seulement la solution :
+        on trouve souvent ensemble une réponse plus simple.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Quel besoin ou quel problème ?
+      placeholder: "Quand je compare deux universités, je dois ouvrir deux fiches et faire des allers-retours…"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution proposée
+      description: Comment tu imagines la chose (maquette ou capture bienvenue).
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives envisagées
+      description: Autres façons de répondre au besoin, ou contournement actuel.
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Périmètre
+      description: Certains sujets sont volontairement hors périmètre pour l'instant (voir CONTRIBUTING.md).
+      options:
+        - label: Cette idée ne concerne pas la mise en relation entre étudiants, PostgreSQL, Docker ou la CI/CD (ou je l'explique ci-dessus)
+          required: true
+        - label: Je serais partant·e pour la développer moi-même
