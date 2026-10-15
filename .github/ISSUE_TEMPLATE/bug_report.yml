@@ -1,0 +1,67 @@
+name: 🐛 Bug
+description: Quelque chose ne fonctionne pas comme prévu
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de prendre le temps de signaler ce problème !
+        Vérifie d'abord qu'une issue similaire n'existe pas déjà.
+        **Faille de sécurité ?** Ne l'expose pas ici : voir SECURITY.md.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Que se passe-t-il ?
+      description: Décris le problème en une ou deux phrases.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes pour reproduire
+      placeholder: |
+        1. Aller sur « Mon top 8 »
+        2. Activer le filtre « Double diplôme uniquement »
+        3. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+      description: Ce qui aurait dû se passer.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Partie concernée
+      options:
+        - Connexion / inscription
+        - Préférences
+        - Top 8 / filtres
+        - Swipe
+        - Fiche université
+        - Synchronisation des données (mya)
+        - Installation / démarrage
+        - Autre
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Messages d'erreur, logs, captures d'écran
+      description: Console du navigateur, terminal du back… (sans secrets ni mots de passe).
+      render: shell
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environnement
+      placeholder: "Windows 11, Node 22.12, Chrome 140"
