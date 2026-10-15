@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// SQLite pour démarrer simplement en local.
+// Pour passer en PostgreSQL plus tard : provider = "postgresql"
+// et une DATABASE_URL de type postgresql://...
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  createdAt    DateTime @default(now())
+  // Compte invité (connexion anonyme) : sans identifiants utilisables,
+  // supprimé à la déconnexion et au plus tard 24 h après sa création.
+  isGuest      Boolean  @default(false)
+
+  preferences      Preferences?
+  swipes           Swipe[]
+  matchesAsUserOne SocialMatch[] @relation("UserOneMatches")
+  matchesAsUserTwo SocialMatch[] @relation("UserTwoMatches")
+}
+
+model Preferences {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // --- Critères de score (voir CLAUDE.md "Module préférences") ---
+  budgetMax          Int? // euros, comparé à University.extraChargeEur ; null = pas de limite
+  // SQLite n'a pas de type array natif : on stocke du JSON en string,
+  // ex: '["France","Canada"]', puis JSON.parse() côté appli
+  countries          String
+  languages          String
+  studyFields        String  @default("[]") // JSON string, comparé à University.specializations
+  userGpa            Float? // comparé à University.gpaMin
+  semesterPref       String? // "full-year" | "semester" | "any", comparé à University.semester
+  wantsDoubleDiploma Boolean @default(false) // comparé à University.doubleDiploma ; false = critère ignoré
+  erasmusPref        String? // "yes" | "no" | "any", comparé à University.erasmus
+  minSpots           Int? // places minimum (partir à plusieurs), comparé à University.spots
+  // Mode strict : seules les universités qui respectent entièrement chaque
+  // critère renseigné sont classées (voir matching/scoring.ts, passesStrict).
+  strictMode         Boolean @default(false)
+
+  // --- Notes personnelles (jamais utilisées dans le score) ---
+  foodPref    String?
+  socialPref  String?
+  climatePref String? // aucune donnée climat côté Epitech
+  housingType String?
+}
+
+// Copie locale de l'API https://mya.epitech.eu (GET /api/universities/:id),
+// alimentée uniquement par le module `sync` — voir CLAUDE.md "Source de données".
+model University {
+  id              String   @id @default(uuid())
+  myaId           Int      @unique // id côté API mya
+  name            String
+  country         String
+  language        String
+  gpaMin          Float? // null si l'API renvoie 0 (= pas d'exigence)
+  spots           Int
+  doubleDiploma   Boolean
+  erasmus         Boolean
+  semester        String // "Full-year only" | "Full-year or semester" | "Semester only"
+  extraChargeEur  Int // frais supplémentaires en euros (pas en centimes)
+  specializations String // JSON string, ex: '["Security","Networks"]'
+  images          String // JSON string d'URLs absolues, ex: '["https://mya.epitech.eu/uploads/x.jpg"]'
+  // Sections texte de la fiche (HTML de l'API converti en texte)
+  overview        String
+  administrative  String
+  accommodation   String
+  courses         String
+  cost            String
+  active          Boolean  @default(true)
+  sourceUpdatedAt DateTime
+  syncedAt        DateTime @updatedAt
+
+  swipes        Swipe[]
+  socialMatches SocialMatch[]
+}
+
+model Swipe {
+  id           String     @id @default(uuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  universityId String
+  university   University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  action       String // "like" | "pass" | "superlike"
+  createdAt    DateTime   @default(now())
+
+  @@unique([userId, universityId]) // un seul swipe par user/université
+}
+
+model SocialMatch {
+  id                 String     @id @default(uuid())
+  userOneId          String
+  userOne            User       @relation("UserOneMatches", fields: [userOneId], references: [id], onDelete: Cascade)
+  userTwoId          String
+  userTwo            User       @relation("UserTwoMatches", fields: [userTwoId], references: [id], onDelete: Cascade)
+  universityId       String
+  university         University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  compatibilityScore Float
+  status             String // "pending" | "accepted"
+}
