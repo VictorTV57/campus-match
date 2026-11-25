@@ -1,4 +1,4 @@
-import type { Criterion, SwipeAction } from '../api/types'
+import type { Criterion, SwipeAction, UniversitySummary } from '../api/types'
 import type { I18nValue } from '../i18n/i18n'
 import type { Lang, MessageKey } from '../i18n/messages'
 
@@ -23,6 +23,19 @@ export function formatExtraCharge(t: T, lang: Lang, eur: number): string {
     maximumFractionDigits: 0,
   }).format(eur)
   return t('uni.extraCharge', { amount })
+}
+
+/** Mention d'une université suspendue, avec sa date si Epitech la donne. */
+export function suspensionLabel(
+  t: T,
+  lang: Lang,
+  { suspendedMonth, suspendedYear }: UniversitySummary,
+): string {
+  if (suspendedMonth === null || suspendedYear === null) return t('uni.suspended')
+  const date = new Intl.DateTimeFormat(locale(lang), { month: 'long', year: 'numeric' }).format(
+    new Date(suspendedYear, suspendedMonth - 1),
+  )
+  return t('uni.suspendedFrom', { date })
 }
 
 export const CRITERION_KEYS: Record<Criterion, MessageKey> = {

@@ -88,6 +88,9 @@ export interface UniversitySummary {
   erasmus: boolean
   specializations: string[]
   images: string[]
+  suspended: boolean
+  suspendedMonth: number | null
+  suspendedYear: number | null
 }
 
 export interface UniversityDetail extends UniversitySummary {

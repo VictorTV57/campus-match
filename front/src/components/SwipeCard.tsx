@@ -2,7 +2,7 @@ import { useRef, useState, type PointerEvent } from 'react'
 import { Link } from 'react-router'
 import type { DeckCard, SwipeAction } from '../api/types'
 import { useI18n } from '../i18n/useI18n'
-import { formatExtraCharge, semesterLabel } from './format'
+import { formatExtraCharge, semesterLabel, suspensionLabel } from './format'
 import { CountryLabel, LanguageLabel } from './CountryFlag'
 import { PhotoCarousel } from './PhotoCarousel'
 import { toPlainText } from './richTextParser'
@@ -130,6 +130,7 @@ export function SwipeCard({
         </div>
 
         <div className="flex flex-wrap gap-1">
+          {uni.suspended && <Tag tone="amber">{suspensionLabel(t, lang, uni)}</Tag>}
           <Tag>{semesterLabel(t, uni.semester)}</Tag>
           <Tag tone={uni.extraChargeEur === 0 ? 'emerald' : 'amber'}>
             {formatExtraCharge(t, lang, uni.extraChargeEur)}

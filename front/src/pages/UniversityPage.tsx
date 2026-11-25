@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router'
 import { universitiesApi } from '../api/endpoints'
-import { formatExtraCharge, locale, myaUniversityUrl, semesterLabel } from '../components/format'
+import { formatExtraCharge, locale, myaUniversityUrl, semesterLabel, suspensionLabel } from '../components/format'
 import { useI18n } from '../i18n/useI18n'
 import { CountryLabel, LanguageLabel } from '../components/CountryFlag'
 import { PhotoCarousel } from '../components/PhotoCarousel'
@@ -44,6 +44,7 @@ export function UniversityPage() {
           <CountryLabel country={uni.country} /> · <LanguageLabel language={uni.language} />
         </p>
         <div className="flex flex-wrap gap-1">
+          {uni.suspended && <Tag tone="amber">{suspensionLabel(t, lang, uni)}</Tag>}
           <Tag>{semesterLabel(t, uni.semester)}</Tag>
           <Tag tone={uni.extraChargeEur === 0 ? 'emerald' : 'amber'}>{formatExtraCharge(t, lang, uni.extraChargeEur)}</Tag>
           <Tag>{uni.gpaMin === null ? t('uni.noGpaMin') : t('uni.gpaMin', { gpa: uni.gpaMin })}</Tag>

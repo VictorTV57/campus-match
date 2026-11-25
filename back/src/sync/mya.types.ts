@@ -48,6 +48,9 @@ export interface MyaUniversity {
   erasmus: MyaYesNo;
   semester: MyaSemester;
   display: MyaYesNo;
+  suspended: MyaYesNo; // champs relevés le 2026-11-02
+  suspendedMonth: number | null; // 1..12 ; souvent rempli même si suspended = NO
+  suspendedYear: number | null;
   updatedAt: string; // ISO 8601
   specializations: string[];
 }

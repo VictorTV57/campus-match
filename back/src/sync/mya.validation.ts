@@ -23,6 +23,9 @@ const isNullableString: Check = (v) => v === null || typeof v === 'string';
 const isNonNegativeInt: Check = (v) =>
   Number.isInteger(v) && (v as number) >= 0;
 const isPositiveInt: Check = (v) => Number.isInteger(v) && (v as number) > 0;
+const isNullablePositiveInt: Check = (v) => v === null || isPositiveInt(v);
+const isNullableMonth: Check = (v) =>
+  v === null || (isPositiveInt(v) && (v as number) <= 12);
 const isNonNegativeNumber: Check = (v) =>
   typeof v === 'number' && Number.isFinite(v) && v >= 0;
 const isYesNo: Check = (v) => v === 'YES' || v === 'NO';
@@ -64,6 +67,9 @@ const UNIVERSITY_SCHEMA: Record<keyof MyaUniversity, Check> = {
   erasmus: isYesNo,
   semester: isSemester,
   display: isYesNo,
+  suspended: isYesNo,
+  suspendedMonth: isNullableMonth,
+  suspendedYear: isNullablePositiveInt,
   updatedAt: isIsoDate,
   specializations: isStringArray,
 };

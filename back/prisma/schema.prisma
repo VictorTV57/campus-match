@@ -78,6 +78,10 @@ model University {
   courses         String
   cost            String
   active          Boolean  @default(true)
+  // Simple mention : une université suspendue reste affichée et classée.
+  suspended       Boolean  @default(false)
+  suspendedMonth  Int? // 1..12, null si non suspendue ou date inconnue
+  suspendedYear   Int?
   sourceUpdatedAt DateTime
   syncedAt        DateTime @updatedAt
 

@@ -5,7 +5,7 @@ import { exportApi, rankingApi, swipesApi } from '../api/endpoints'
 import type { RankedUniversity } from '../api/types'
 import { useAuth } from '../auth/useAuth'
 import { CountryLabel, LanguageLabel } from '../components/CountryFlag'
-import { formatExtraCharge, semesterLabel } from '../components/format'
+import { formatExtraCharge, semesterLabel, suspensionLabel } from '../components/format'
 import { PhotoCarousel } from '../components/PhotoCarousel'
 import { ScoreBadge } from '../components/ScoreBreakdown'
 import { Button, Card, ErrorBox, Spinner, Tag } from '../components/ui'
@@ -112,6 +112,7 @@ function Top1Card() {
             <CountryLabel country={uni.country} /> · <LanguageLabel language={uni.language} />
           </p>
           <div className="flex flex-wrap gap-1">
+            {uni.suspended && <Tag tone="amber">{suspensionLabel(t, lang, uni)}</Tag>}
             <Tag>{semesterLabel(t, uni.semester)}</Tag>
             <Tag tone={uni.extraChargeEur === 0 ? 'emerald' : 'amber'}>
               {formatExtraCharge(t, lang, uni.extraChargeEur)}

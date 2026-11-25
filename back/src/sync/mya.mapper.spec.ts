@@ -1,4 +1,73 @@
-import { htmlToRichText } from './mya.mapper';
+import { htmlToRichText, toUniversityData } from './mya.mapper';
+import type { MyaUniversity } from './mya.types';
+import { assertMyaUniversities, MyaShapeError } from './mya.validation';
+
+function mya(overrides: Partial<MyaUniversity> = {}): MyaUniversity {
+  return {
+    id: 140,
+    name: 'CSU San Marcos - Deferred Start',
+    country: 'USA',
+    gpa: 0,
+    spots: 4,
+    diploma: 'NO',
+    language: 'English',
+    extracharge: 2800,
+    overview: '',
+    administrative: '',
+    accomodation: '',
+    courses: '',
+    cost: '',
+    image1: 'a.png',
+    image2: null,
+    image3: null,
+    erasmus: 'NO',
+    semester: 'Full-year only',
+    display: 'YES',
+    suspended: 'NO',
+    suspendedMonth: null,
+    suspendedYear: null,
+    updatedAt: '2026-10-17T14:35:38.238Z',
+    specializations: [],
+    ...overrides,
+  };
+}
+
+describe('suspension', () => {
+  it('suspendue : reste active, avec sa date', () => {
+    expect(
+      toUniversityData(
+        mya({ suspended: 'YES', suspendedMonth: 9, suspendedYear: 2026 }),
+      ),
+    ).toMatchObject({
+      active: true,
+      suspended: true,
+      suspendedMonth: 9,
+      suspendedYear: 2026,
+    });
+  });
+
+  it('non suspendue : la date résiduelle de mya est ignorée', () => {
+    expect(
+      toUniversityData(
+        mya({ suspended: 'NO', suspendedMonth: 9, suspendedYear: 2026 }),
+      ),
+    ).toMatchObject({
+      suspended: false,
+      suspendedMonth: null,
+      suspendedYear: null,
+    });
+  });
+
+  it('valeurs hors format rejetées par la validation', () => {
+    const check = (overrides: Record<string, unknown>) =>
+      assertMyaUniversities([
+        { expectedId: 140, data: { ...mya(), ...overrides } },
+      ]);
+    expect(check({ suspendedMonth: 12 })).toHaveLength(1);
+    expect(() => check({ suspendedMonth: 13 })).toThrow(MyaShapeError);
+    expect(() => check({ suspended: undefined })).toThrow(MyaShapeError);
+  });
+});
 
 describe('htmlToRichText', () => {
   it('paragraphes, puces et entités', () => {
