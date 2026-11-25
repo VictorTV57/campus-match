@@ -16,6 +16,9 @@ export interface UniversitySummary {
   erasmus: boolean;
   specializations: string[];
   images: string[];
+  suspended: boolean;
+  suspendedMonth: number | null;
+  suspendedYear: number | null;
 }
 
 /** Fiche complète, avec les sections texte. */
@@ -44,6 +47,9 @@ export function toSummary(uni: University): UniversitySummary {
     erasmus: uni.erasmus,
     specializations: parseStringArray(uni.specializations, uni),
     images: parseStringArray(uni.images, uni),
+    suspended: uni.suspended,
+    suspendedMonth: uni.suspendedMonth,
+    suspendedYear: uni.suspendedYear,
   };
 }
 

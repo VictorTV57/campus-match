@@ -84,7 +84,8 @@ logement) ne servent jamais au score : Epitech ne fournit pas ces données.
 ## Classement du top 8 (`matching/ranking.ts`, `matching.service.ts`)
 
 1. Universités actives, scorées (et réduites aux correspondances strictes en
-   mode strict).
+   mode strict). Une université **suspendue** côté Epitech reste active : elle
+   est classée normalement et porte seulement une mention (« ⏸ Suspendue »).
 2. **Filtres** éventuels de la page (`matching/filters.ts`) : contrairement au
    score, ils excluent.
 3. **Ajustement par les swipes** : pass → retirée du classement,

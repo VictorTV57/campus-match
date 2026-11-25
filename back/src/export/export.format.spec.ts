@@ -27,6 +27,9 @@ function university(overrides: Partial<University> = {}): University {
     courses: '',
     cost: '',
     active: true,
+    suspended: false,
+    suspendedMonth: null,
+    suspendedYear: null,
     sourceUpdatedAt: new Date('2026-09-22T09:45:26Z'),
     syncedAt: new Date(0),
     ...overrides,
@@ -53,6 +56,9 @@ function row(overrides: Partial<ExportRow> = {}): ExportRow {
       erasmus: true,
       specializations: ['Security', 'Networks'],
       images: [],
+      suspended: false,
+      suspendedMonth: null,
+      suspendedYear: null,
       sourceUpdatedAt: new Date('2026-09-22T09:45:26Z'),
     },
     ...overrides,
@@ -69,7 +75,7 @@ describe('toCsv', () => {
     const [header, first] = lines(csv);
     expect(header).not.toMatch(/Classement|Mon swipe|Mon score/);
     expect(first).toBe(
-      'AGH University;121;Poland;English;Security, Networks;1500;;Année ou semestre;Oui;Oui;5;https://mya.epitech.eu/university/121;2026-09-22',
+      'AGH University;121;Poland;English;Security, Networks;1500;;Année ou semestre;Oui;Oui;5;Non;https://mya.epitech.eu/university/121;2026-09-22',
     );
   });
 
@@ -161,7 +167,7 @@ describe('toXlsx', () => {
     expect(sheet.name).toBe('Universités');
     expect(sheet.getRow(1).getCell(1).value).toBe('Université');
     expect(sheet.autoFilter).toBeDefined();
-    expect(sheet.getRow(2).getCell(12).value).toMatchObject({
+    expect(sheet.getRow(2).getCell(13).value).toMatchObject({
       hyperlink: 'https://mya.epitech.eu/university/121',
     });
   });

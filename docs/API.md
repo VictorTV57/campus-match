@@ -107,6 +107,9 @@ Chaque élément :
 }
 ```
 
+`university` porte aussi `suspended`, `suspendedMonth` et `suspendedYear` : une
+mention Epitech sans effet sur le score ni le classement.
+
 ### `GET /ranking/deck?limit=10`
 
 Prochaines cartes à swiper (universités pas encore swipées, les plus
@@ -129,7 +132,7 @@ Tableur lu depuis la base locale (jamais l'API mya en direct).
 
 | `kind` | Contenu |
 |---|---|
-| `catalog` | Toutes les universités actives, par nom, **sans aucune donnée personnelle** : nom, ID mya, pays, langue, spécialisations, frais, GPA minimum, durée, double diplôme, Erasmus+, places, lien mya, date de mise à jour |
+| `catalog` | Toutes les universités actives, par nom, **sans aucune donnée personnelle** : nom, ID mya, pays, langue, spécialisations, frais, GPA minimum, durée, double diplôme, Erasmus+, places, suspendue, lien mya, date de mise à jour |
 | `swipes` | **Seulement les universités swipées**, avec en tête `Classement`, `Mon swipe`, `Mon score`. Classées comme le top 8 (score + bonus like / super like) ; les « pass » viennent à la fin, sans place. Dans l'Excel, chaque ligne est colorée : vert (like), or (super like), rouge (pass) |
 
 | Paramètre | Valeurs | Effet |

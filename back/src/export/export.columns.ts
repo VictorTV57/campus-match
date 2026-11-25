@@ -142,6 +142,11 @@ const CATALOG_COLUMNS: ExportColumn[] = [
     value: (r) => r.university.spots,
   },
   {
+    header: { fr: 'Suspendue', en: 'Suspended' },
+    width: 11,
+    value: (r, lang) => yesNo(r.university.suspended, lang),
+  },
+  {
     header: { fr: 'Fiche mya', en: 'mya page' },
     width: 42,
     value: (r) => {

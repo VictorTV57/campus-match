@@ -8,6 +8,7 @@ export type UniversitySyncData = Omit<
 >;
 
 export function toUniversityData(mya: MyaUniversity): UniversitySyncData {
+  const suspended = yesNo(mya.suspended);
   return {
     myaId: mya.id,
     name: mya.name.trim(),
@@ -32,6 +33,11 @@ export function toUniversityData(mya: MyaUniversity): UniversitySyncData {
     cost: htmlToRichText(mya.cost),
     // Une fiche masquée côté Epitech est traitée comme une fiche retirée.
     active: yesNo(mya.display),
+    suspended,
+    // Sans suspension, la date n'a pas de sens : c'est le pré-remplissage du
+    // formulaire admin d'Epitech (9/année courante).
+    suspendedMonth: suspended ? mya.suspendedMonth : null,
+    suspendedYear: suspended ? mya.suspendedYear : null,
     sourceUpdatedAt: new Date(mya.updatedAt),
   };
 }

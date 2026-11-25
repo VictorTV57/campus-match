@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router'
 import { ApiError } from '../api/client'
 import { rankingApi, swipesApi, universitiesApi } from '../api/endpoints'
 import type { RankedUniversity, SwipeAction, UniversityDetail } from '../api/types'
-import { SWIPE_KEYS, formatExtraCharge, semesterLabel } from '../components/format'
+import { SWIPE_KEYS, formatExtraCharge, semesterLabel, suspensionLabel } from '../components/format'
 import { CountryLabel, LanguageLabel } from '../components/CountryFlag'
 import { useI18n } from '../i18n/useI18n'
 import { NeedPreferences } from '../components/NeedPreferences'
@@ -127,6 +127,7 @@ function RankedCard({ item, onChanged }: { item: RankedUniversity; onChanged: ()
               {semesterLabel(t, uni.semester)} · {formatExtraCharge(t, lang, uni.extraChargeEur)}
             </p>
             <div className="flex flex-wrap gap-1">
+              {uni.suspended && <Tag tone="amber">{suspensionLabel(t, lang, uni)}</Tag>}
               {item.swipe !== null && (
                 <Tag tone={item.swipe === 'superlike' ? 'amber' : 'indigo'}>{t(SWIPE_KEYS[item.swipe])}</Tag>
               )}
